@@ -27,7 +27,7 @@ Advantages of the third approach:
 ```html
 <mood-stone>
     <template shadowrootmode=open>
-        <input disabled be-entrusting='disabled property of $0 with is happy property of host.'>
+        <input disabled be-entrusting='of disabled property of $0 with is happy property of host.'>
     </template>
 </mood-stone>
 ```
@@ -37,3 +37,17 @@ What this does:
 Sets host's isHappy property to true.
 
 But 9 times out of 10, once this initialization is complete, we will want the host's isHappy property to alter the input element's disabled property as it changes.  So be-entrusting does that as well.
+
+## Example 1b:  Shorthand notation
+
+Since the scenario above is likely to repeat for multiple elements, and that's a lot of typing, we want to provide a shorthand way of expressing the same idea.  That is provided below:
+
+```html
+<mood-stone>
+    <template shadowrootmode=open>
+        <input disabled be-entrusting='of disabled to /isHappy.'>
+    </template>
+</mood-stone>
+```
+
+"/" is a special, optional character used to signify that we are referring to the host(ish).
