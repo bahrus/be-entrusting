@@ -10,14 +10,15 @@ When HTML is sent to the browser, especially as it pertains to server-streamed w
 
 1.  Encode the state as attributes of the web component.
 2.  Send the (JSON) data separately, then hydrate after the streaming is complete.
-3.  User semantic HTML, so that the state can be both encode and fully decoded from the HTML itself.
+3.  Use semantic HTML, so that the state can be both encoded and fully decoded from the HTML itself.
 
 Advantages of the third approach:
 
 1.  Styling -- the encoded HTML can already be used to assist in styling, before the JavaScript hydrates the state.
-2.  Provide for JS free, declarative custom elements (WIP).
-3.  Enables search engine accuracy
-4.  Can serialize state from the server to the browser without requiring all properties of the custom element to have an attribute equivalent.
+2.  Performance -- some functionality, such as gathering user input, could begin immediately, without needing to wait for the entire stream to complete.
+3.  Provide for JS free, declarative custom elements (WIP).
+4.  Enables search engine accuracy via microdata.
+5.  Can serialize state from the server to the browser without requiring all properties of the custom element to have an attribute equivalent.
 
 > [!Note]
 > This element enhancement would probably be most effective if it could be partly applied in a Cloudflare or Bun or Deno worker and/or a service worker, [w3c willing](https://github.com/whatwg/dom/issues/1222). 
@@ -51,3 +52,5 @@ Since the scenario above is likely to repeat for multiple elements, and that's a
 ```
 
 "/" is a special, optional character used to signify that we are referring to the host(ish).
+
+If "to" is part of the property name, it is safest to "escape" such scenarios using "\to".
