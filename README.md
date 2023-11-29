@@ -4,7 +4,7 @@
 
 ## Use case
 
-Derive initial state from server streamed HTML.
+Derive initial state from server streamed semantic HTML, then entrust its value to some other system of record.
 
 When HTML is sent to the browser, especially as it pertains to server-streamed web components, there are a number of ways we can pass down "state" associated with each instance (btw, we may choose to stream one fully rendered instance down, and let the power of template instantiation take care of the rest):
 
@@ -14,7 +14,7 @@ When HTML is sent to the browser, especially as it pertains to server-streamed w
 
 Advantages of the third approach:
 
-1.  Styling -- the encoded HTML can already be used to assist in styling, before the JavaScript hydrates the state.
+1.  Styling -- the encoded HTML can already be used to assist in styling, before (or while) the JavaScript hydrates the state.
 2.  Performance -- some functionality, such as gathering user input, could begin immediately, without needing to wait for the entire stream to complete.
 3.  Provide for JS free, declarative custom elements (WIP).
 4.  Enables search engine accuracy via microdata.
@@ -52,5 +52,21 @@ Since the scenario above is likely to repeat for multiple elements, and that's a
 ```
 
 "/" is a special, optional character used to signify that we are referring to the host(ish).
+
+In the examples below, we will encounter special symbols used in order to keep the statements small:
+
+| Symbol      | Meaning              | Notes                                                                                |
+|-------------|----------------------|--------------------------------------------------------------------------------------|
+| /propName   |"Hostish"             | Passes initial value to host, then monitor for changes.                              |
+| @propName   |Name attribute        | Pass to form element with matching name, list for input events.                      |
+| $propName   |Itemprop attribute    | If contenteditible, listens for input events.  Otherwise, uses be-value-added.       |
+| #propName   |Id attribute          | Match by id.                                                                         |
+| -prop-name  |Marker indicates prop | Passes by attribute marker.                                                          |
+
+
+"Hostish" means:
+
+1.  First, do a "closest" for an element with attribute itemscope, where the tag name has a dash in it.  Do that search recursively.  
+2.  If no match found, use getRootNode().host.
 
 If "to" is part of the property name, it is safest to "escape" such scenarios using "\to".
