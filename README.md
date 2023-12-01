@@ -1,10 +1,10 @@
-# be-entrusting
-
- [TODO]
+# be-entrusting [TODO]
 
 ## Use case
 
-Derive initial state from server streamed semantic HTML, then entrust its value to some other system of record.
+Derive initial value from server streamed semantic HTML, then entrust its value to some other system of record.
+
+be-entrusting is a very thin enhancement of [be-observant](https://github.com/bahrus/be-observant).  be-entrusting just adds additional support for setting the initial value of what is being observed from the (server-rendered) HTML value.
 
 When HTML is sent to the browser, especially as it pertains to server-streamed web components, there are a number of ways we can pass down "state" associated with each instance (btw, we may choose to stream one fully rendered instance down, and let the power of template instantiation take care of the rest):
 
@@ -28,6 +28,22 @@ Advantages of the third approach:
 ```html
 <mood-stone>
     <template shadowrootmode=open>
+        <input checked name=isHappy type=checkbox be-entrusting>
+    </template>
+</mood-stone>
+```
+
+What this does:
+
+Sets the mood-stone (host's) isHappy property to true, since the checkbox is checked.
+
+But 9 times out of 10, once this initialization is complete, we will want the host's isHappy property to alter the input element's checked property as it changes.  So be-entrusting does that as well.
+
+## Example 1b: [TODO]
+
+```html
+<mood-stone>
+    <template shadowrootmode=open>
         <input disabled be-entrusting='of disabled property of $0 with is happy property of host.'>
     </template>
 </mood-stone>
@@ -39,7 +55,7 @@ Sets host's isHappy property to true.
 
 But 9 times out of 10, once this initialization is complete, we will want the host's isHappy property to alter the input element's disabled property as it changes.  So be-entrusting does that as well.
 
-## Example 1b:  Shorthand notation
+## Example 1c:  Shorthand notation [TODO]
 
 Since the scenario above is likely to repeat for multiple elements, and that's a lot of typing, we want to provide a shorthand way of expressing the same idea.  That is provided below:
 
@@ -70,3 +86,13 @@ In the examples below, we will encounter special symbols used in order to keep t
 2.  If no match found, use getRootNode().host.
 
 If "to" is part of the property name, it is safest to "escape" such scenarios using "\to".
+
+## Example 1c
+
+```html
+<mood-stone>
+    <template shadowrootmode=open>
+        <input disabled be-entrusting='of disabled to /isHappy.'>
+    </template>
+</mood-stone>
+```
