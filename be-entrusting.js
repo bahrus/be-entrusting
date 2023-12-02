@@ -42,7 +42,6 @@ export class BeEntrusting extends BE {
             if (localProp === undefined) {
                 const { getSignalVal } = await import('be-linked/getSignalVal.js');
                 localVal = getSignalVal(enhancedElement);
-                console.log({ localVal });
             }
             const remoteEl = await getRemoteEl(enhancedElement, '/', remoteProp);
             remoteEl[remoteProp] = localVal;
