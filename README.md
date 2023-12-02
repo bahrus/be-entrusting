@@ -55,7 +55,7 @@ Sets host's isHappy property to true.
 
 But 9 times out of 10, once this initialization is complete, we will want the host's isHappy property to alter the input element's disabled property as it changes.  So be-entrusting does that as well.
 
-## Example 1c:  Shorthand notation [TODO]
+## Example 1c:  Shorthand notation 
 
 Since the scenario above is likely to repeat for multiple elements, and that's a lot of typing, we want to provide a shorthand way of expressing the same idea.  That is provided below:
 
