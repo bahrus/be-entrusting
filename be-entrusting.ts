@@ -64,6 +64,8 @@ export class BeEntrusting extends BE<AP, Actions> implements Actions{
             if(localProp === undefined){
                 const {getSignalVal} = await import('be-linked/getSignalVal.js');
                 localVal = getSignalVal(enhancedElement);
+            }else{
+                localVal = (<any>enhancedElement)[localProp];
             }
             const remoteEl = await getRemoteEl(enhancedElement, '/', remoteProp);
             (<any>remoteEl)[remoteProp] = localVal;

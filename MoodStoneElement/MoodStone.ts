@@ -29,8 +29,8 @@ export class MoodStone extends HTMLElement{
         <div id=isHappy></div>
         <div id=isSad></div>
         <div itemscope>
-            <h3>Example 1a</h3>
-            <input checked name=isHappy type=checkbox be-entrusting>
+            <!-- <h3>Example 1a</h3>
+            <input checked name=isHappy type=checkbox be-entrusting> -->
             <h3>Example 1c</h3>
             <input disabled be-entrusting='of disabled to /isSad.'>
         </div>
