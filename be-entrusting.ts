@@ -5,6 +5,8 @@ import {Actions, AllProps, AP, PAP, ProPAP, POA, EntrustingRule} from './types';
 import {register} from 'be-hive/register.js';
 import {getRemoteProp} from 'be-linked/defaults.js';
 import {getRemoteEl} from 'be-linked/getRemoteEl.js';
+import {ObserveRule, ObserverOptions} from 'be-observant/types';
+import {Observer} from 'be-observant/Observer.js';
 
 export class BeEntrusting extends BE<AP, Actions> implements Actions{
     static override get beConfig(){
@@ -14,7 +16,7 @@ export class BeEntrusting extends BE<AP, Actions> implements Actions{
             isParsedProp: 'isParsed'
         } as BEConfig;
     }
-
+    #abortControllers: Array<AbortController>  = [];
     async noAttrs(self: this): ProPAP {
         const {enhancedElement} = self;
         const entrustingRule: EntrustingRule = {
@@ -40,10 +42,15 @@ export class BeEntrusting extends BE<AP, Actions> implements Actions{
         };
     }
 
+    handleObserveCalback = (observe: ObserveRule, val: any) => {
+        console.log({observe, val});
+    }
+        
+
     async hydrate(self: this){
         const {entrustingRules, enhancedElement} = self;
         for(const entrustRule of entrustingRules!){
-            const {localProp, remoteProp} = entrustRule;
+            const {localProp, remoteProp, remoteType} = entrustRule;
             let localVal: any;
             if(localProp === undefined){
                 const {getSignalVal} = await import('be-linked/getSignalVal.js');
@@ -51,7 +58,16 @@ export class BeEntrusting extends BE<AP, Actions> implements Actions{
             }
             const remoteEl = await getRemoteEl(enhancedElement, '/', remoteProp);
             (<any>remoteEl)[remoteProp] = localVal;
-            //new Observer(self, observe, this.#abortControllers);
+            const observeRule: ObserveRule = {
+                remoteProp,
+                remoteType,
+                callback: this.handleObserveCalback
+            };
+            const observerOptions: ObserverOptions = {
+                abortControllers: this.#abortControllers,
+                remoteEl
+            }
+            new Observer(self, observeRule, observerOptions);
             //await hydrateObserve(self, observe, this.#abortControllers)
         }
         //evalObserveRules(self, 'init');

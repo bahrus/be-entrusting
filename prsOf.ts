@@ -2,11 +2,9 @@ import {EntrustingRule, AP} from './types';
 import {ElTypes} from 'be-linked/types';
 import {RegExpOrRegExpExt} from 'be-enhanced/types';
 import {arr, tryParse} from 'be-enhanced/cpu.js';
-import {strType} from 'be-observant/prsOf.js';
+import {strType, remoteProp, remoteType} from 'be-observant/prsOf.js';
 
 //TODO import from be-observant/prsOf
-const remoteType = String.raw `(?<remoteType>${strType})`;
-const remoteProp = String.raw `(?<remoteProp>[\w\-\+\*\/]+)`;
 
 const reOfEntrustingStatements: Array<RegExpOrRegExpExt<Partial<EntrustingRule>>> = [
 

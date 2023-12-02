@@ -3,6 +3,7 @@ import { XE } from 'xtal-element/XE.js';
 import { register } from 'be-hive/register.js';
 import { getRemoteProp } from 'be-linked/defaults.js';
 import { getRemoteEl } from 'be-linked/getRemoteEl.js';
+import { Observer } from 'be-observant/Observer.js';
 export class BeEntrusting extends BE {
     static get beConfig() {
         return {
@@ -11,6 +12,7 @@ export class BeEntrusting extends BE {
             isParsedProp: 'isParsed'
         };
     }
+    #abortControllers = [];
     async noAttrs(self) {
         const { enhancedElement } = self;
         const entrustingRule = {
@@ -34,10 +36,13 @@ export class BeEntrusting extends BE {
             entrustingRules
         };
     }
+    handleObserveCalback = (observe, val) => {
+        console.log({ observe, val });
+    };
     async hydrate(self) {
         const { entrustingRules, enhancedElement } = self;
         for (const entrustRule of entrustingRules) {
-            const { localProp, remoteProp } = entrustRule;
+            const { localProp, remoteProp, remoteType } = entrustRule;
             let localVal;
             if (localProp === undefined) {
                 const { getSignalVal } = await import('be-linked/getSignalVal.js');
@@ -45,7 +50,16 @@ export class BeEntrusting extends BE {
             }
             const remoteEl = await getRemoteEl(enhancedElement, '/', remoteProp);
             remoteEl[remoteProp] = localVal;
-            //new Observer(self, observe, this.#abortControllers);
+            const observeRule = {
+                remoteProp,
+                remoteType,
+                callback: this.handleObserveCalback
+            };
+            const observerOptions = {
+                abortControllers: this.#abortControllers,
+                remoteEl
+            };
+            new Observer(self, observeRule, observerOptions);
             //await hydrateObserve(self, observe, this.#abortControllers)
         }
         //evalObserveRules(self, 'init');

@@ -1,6 +1,7 @@
 import { ActionOnEventConfigs } from "trans-render/froop/types";
 import {IBE} from 'be-enhanced/types';
 import {ElTypes, SignalRefType} from 'be-linked/types';
+import {ObserveRule} from 'be-observant/types';
 
 export interface EndUserProps extends IBE{
     of?: Array<OfStatement>;
@@ -28,9 +29,7 @@ export interface Actions{
     hydrate(self: this): ProPAP;
 }
 
-export interface EntrustingRule{
-    remoteProp: string,
-    remoteType: ElTypes,
-    localProp?: string,
+export interface EntrustingRule extends ObserveRule{
+    
 }
 
