@@ -9,7 +9,8 @@
 		"strict": true,
 	},
 	"files":[
-		"be-entrusting.ts"
+		"be-entrusting.ts",
+		"MoodStoneElement/MoodStone.ts"
 	],
 	"exclude":[
 		"node_modules"

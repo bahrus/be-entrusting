@@ -1,22 +1,18 @@
-import {BE, propDefaults, propInfo} from 'be-enhanced/BE.js';
-import {BEConfig} from 'be-enhanced/types';
-import {XE} from 'xtal-element/XE.js';
-import {Actions, AllProps, AP, PAP, ProPAP, POA, EntrustingRule} from './types';
-import {register} from 'be-hive/register.js';
-import {getRemoteProp} from 'be-linked/defaults.js';
-
-export class BeEntrusting extends BE<AP, Actions> implements Actions{
-    static override get beConfig(){
+import { BE, propDefaults, propInfo } from 'be-enhanced/BE.js';
+import { XE } from 'xtal-element/XE.js';
+import { register } from 'be-hive/register.js';
+import { getRemoteProp } from 'be-linked/defaults.js';
+export class BeEntrusting extends BE {
+    static get beConfig() {
         return {
             parse: true,
             parseAndCamelize: true,
             isParsedProp: 'isParsed'
-        } as BEConfig;
+        };
     }
-
-    async noAttrs(self: this): ProPAP {
-        const {enhancedElement} = self;
-        const entrustingRule: EntrustingRule = {
+    async noAttrs(self) {
+        const { enhancedElement } = self;
+        const entrustingRule = {
             //TODO:  move this evaluation to be-linked -- shared with be-elevating, be-bound
             //Also, support for space delimited itemprop
             remoteProp: getRemoteProp(enhancedElement),
@@ -26,28 +22,26 @@ export class BeEntrusting extends BE<AP, Actions> implements Actions{
             entrustingRules: [entrustingRule]
         };
     }
-
-    async onCamelized(self: this) {
-        const {of, Of} = self;
-        let entrustingRules: Array<EntrustingRule> = [];
-        if((of || Of) !== undefined){
-            const {prsOf} = await import('./prsOf.js');
+    async onCamelized(self) {
+        const { of, Of } = self;
+        let entrustingRules = [];
+        if ((of || Of) !== undefined) {
+            const { prsOf } = await import('./prsOf.js');
             entrustingRules = prsOf(self);
         }
         return {
             entrustingRules
         };
     }
-
-    async hydrate(self: this){
-        const {entrustingRules, enhancedElement} = self;
-        for(const entrustRule of entrustingRules!){
-            const {localProp} = entrustRule;
-            let localVal: any;
-            if(localProp === undefined){
-                const {getSignalVal} = await import('be-linked/getSignalVal.js');
+    async hydrate(self) {
+        const { entrustingRules, enhancedElement } = self;
+        for (const entrustRule of entrustingRules) {
+            const { localProp } = entrustRule;
+            let localVal;
+            if (localProp === undefined) {
+                const { getSignalVal } = await import('be-linked/getSignalVal.js');
                 localVal = getSignalVal(enhancedElement);
-                console.log({localVal});
+                console.log({ localVal });
             }
             //new Observer(self, observe, this.#abortControllers);
             //await hydrateObserve(self, observe, this.#abortControllers)
@@ -55,27 +49,23 @@ export class BeEntrusting extends BE<AP, Actions> implements Actions{
         //evalObserveRules(self, 'init');
         return {
             resolved: true,
-        }
+        };
     }
 }
-
-export interface BeEntrusting extends AllProps{}
-
 const tagName = 'be-entrusting';
 const ifWantsToBe = 'entrusting';
 const upgrade = '*';
-
-const xe = new XE<AP, Actions>({
-    config:{
+const xe = new XE({
+    config: {
         tagName,
         isEnh: true,
-        propDefaults:{
+        propDefaults: {
             ...propDefaults,
         },
-        propInfo:{
+        propInfo: {
             ...propInfo,
         },
-        actions:{
+        actions: {
             noAttrs: {
                 ifAllOf: ['isParsed'],
                 ifNoneOf: ['of', 'Of']
@@ -89,6 +79,4 @@ const xe = new XE<AP, Actions>({
     },
     superclass: BeEntrusting,
 });
-
 register(ifWantsToBe, upgrade, tagName);
-
