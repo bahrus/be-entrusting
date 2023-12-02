@@ -53,11 +53,12 @@ export class BeEntrusting extends BE {
             const observeRule = {
                 remoteProp,
                 remoteType,
-                callback: this.handleObserveCalback
+                callback: this.handleObserveCalback,
+                skipInit: true,
             };
             const observerOptions = {
                 abortControllers: this.#abortControllers,
-                remoteEl
+                remoteEl,
             };
             new Observer(self, observeRule, observerOptions);
             //await hydrateObserve(self, observe, this.#abortControllers)

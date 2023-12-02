@@ -61,11 +61,12 @@ export class BeEntrusting extends BE<AP, Actions> implements Actions{
             const observeRule: ObserveRule = {
                 remoteProp,
                 remoteType,
-                callback: this.handleObserveCalback
+                callback: this.handleObserveCalback,
+                skipInit: true,
             };
             const observerOptions: ObserverOptions = {
                 abortControllers: this.#abortControllers,
-                remoteEl
+                remoteEl,
             }
             new Observer(self, observeRule, observerOptions);
             //await hydrateObserve(self, observe, this.#abortControllers)
