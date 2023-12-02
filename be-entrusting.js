@@ -4,6 +4,7 @@ import { register } from 'be-hive/register.js';
 import { getRemoteProp } from 'be-linked/defaults.js';
 import { getRemoteEl } from 'be-linked/getRemoteEl.js';
 import { Observer } from 'be-observant/Observer.js';
+import { getLocalSignal } from 'be-linked/defaults.js';
 export class BeEntrusting extends BE {
     static get beConfig() {
         return {
@@ -36,7 +37,15 @@ export class BeEntrusting extends BE {
             entrustingRules
         };
     }
-    handleObserveCalback = (observe, val) => {
+    handleObserveCalback = async (observe, val) => {
+        const { enhancedElement } = this;
+        let { localProp } = observe;
+        if (localProp === undefined) {
+            const signal = await getLocalSignal(enhancedElement);
+            localProp = signal.prop;
+            observe.localProp = localProp;
+        }
+        enhancedElement[localProp] = val;
         console.log({ observe, val });
     };
     async hydrate(self) {

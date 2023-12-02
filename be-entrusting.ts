@@ -7,6 +7,7 @@ import {getRemoteProp} from 'be-linked/defaults.js';
 import {getRemoteEl} from 'be-linked/getRemoteEl.js';
 import {ObserveRule, ObserverOptions} from 'be-observant/types';
 import {Observer} from 'be-observant/Observer.js';
+import {getLocalSignal} from 'be-linked/defaults.js';
 
 export class BeEntrusting extends BE<AP, Actions> implements Actions{
     static override get beConfig(){
@@ -42,7 +43,15 @@ export class BeEntrusting extends BE<AP, Actions> implements Actions{
         };
     }
 
-    handleObserveCalback = (observe: ObserveRule, val: any) => {
+    handleObserveCalback = async (observe: ObserveRule, val: any)  => {
+        const {enhancedElement} = this;
+        let {localProp} = observe;
+        if(localProp === undefined){
+            const signal = await getLocalSignal(enhancedElement);
+            localProp = signal.prop;
+            observe.localProp = localProp;
+        }
+        (<any>enhancedElement)[localProp!] = val;
         console.log({observe, val});
     }
         
