@@ -6,8 +6,15 @@ import {strType, remoteProp, remoteType} from 'be-observant/prsOf.js';
 
 //TODO import from be-observant/prsOf
 
-const reOfEntrustingStatements: Array<RegExpOrRegExpExt<Partial<EntrustingRule>>> = [
+const localPropTo = String.raw `(?<localProp>[\w\:]+)(?<!\\)To`
 
+const reOfEntrustingStatements: Array<RegExpOrRegExpExt<Partial<EntrustingRule>>> = [
+    {
+        regExp: new RegExp(String.raw `^${localPropTo}${remoteType}${remoteProp}`),
+        defaultVals:{
+
+        }
+    }
 ];
 export function prsOf(self: AP) : Array<EntrustingRule> {
     const {Of, of} = self;
@@ -16,7 +23,7 @@ export function prsOf(self: AP) : Array<EntrustingRule> {
     for(const ofStatement of both){
         const test = tryParse(ofStatement, reOfEntrustingStatements) as EntrustingRule;
         if(test === null) throw 'PE';
-        
+        console.log({test});
         entrustingRules.push(test);
     }
     return entrustingRules;

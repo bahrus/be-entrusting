@@ -1,4 +1,4 @@
-# be-entrusting [TODO]
+# be-entrusting [WIP]
 
 ## Use case
 
@@ -23,7 +23,7 @@ Advantages of the third approach:
 > [!Note]
 > This element enhancement would probably be most effective if it could be partly applied in a Cloudflare or Bun or Deno worker and/or a service worker, [w3c willing](https://github.com/whatwg/dom/issues/1222). 
 
-## Example 1a: [TODO]
+## Example 1a:
 
 ```html
 <mood-stone>
@@ -62,12 +62,12 @@ Since the scenario above is likely to repeat for multiple elements, and that's a
 ```html
 <mood-stone>
     <template shadowrootmode=open>
-        <input disabled be-entrusting='of disabled to /isHappy.'>
+        <input disabled be-entrusting='of disabled to /isSad.'>
     </template>
 </mood-stone>
 ```
 
-"/" is a special, optional character used to signify that we are referring to the host(ish).
+"/" is a special character used to signify that we are referring to the host(ish).
 
 In the examples below, we will encounter special symbols used in order to keep the statements small:
 
