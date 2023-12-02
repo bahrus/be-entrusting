@@ -65,6 +65,7 @@ export class BeEntrusting extends BE {
             const observeRule = {
                 remoteProp,
                 remoteType,
+                localProp,
                 callback: this.handleObserveCalback,
                 skipInit: true,
             };

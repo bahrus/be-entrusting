@@ -72,6 +72,7 @@ export class BeEntrusting extends BE<AP, Actions> implements Actions{
             const observeRule: ObserveRule = {
                 remoteProp,
                 remoteType,
+                localProp,
                 callback: this.handleObserveCalback,
                 skipInit: true,
             };
