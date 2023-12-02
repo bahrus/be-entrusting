@@ -2,6 +2,7 @@ import { BE, propDefaults, propInfo } from 'be-enhanced/BE.js';
 import { XE } from 'xtal-element/XE.js';
 import { register } from 'be-hive/register.js';
 import { getRemoteProp } from 'be-linked/defaults.js';
+import { getRemoteEl } from 'be-linked/getRemoteEl.js';
 export class BeEntrusting extends BE {
     static get beConfig() {
         return {
@@ -36,13 +37,15 @@ export class BeEntrusting extends BE {
     async hydrate(self) {
         const { entrustingRules, enhancedElement } = self;
         for (const entrustRule of entrustingRules) {
-            const { localProp } = entrustRule;
+            const { localProp, remoteProp } = entrustRule;
             let localVal;
             if (localProp === undefined) {
                 const { getSignalVal } = await import('be-linked/getSignalVal.js');
                 localVal = getSignalVal(enhancedElement);
                 console.log({ localVal });
             }
+            const remoteEl = await getRemoteEl(enhancedElement, '/', remoteProp);
+            remoteEl[remoteProp] = localVal;
             //new Observer(self, observe, this.#abortControllers);
             //await hydrateObserve(self, observe, this.#abortControllers)
         }

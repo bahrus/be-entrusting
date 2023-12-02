@@ -4,6 +4,7 @@ import {XE} from 'xtal-element/XE.js';
 import {Actions, AllProps, AP, PAP, ProPAP, POA, EntrustingRule} from './types';
 import {register} from 'be-hive/register.js';
 import {getRemoteProp} from 'be-linked/defaults.js';
+import {getRemoteEl} from 'be-linked/getRemoteEl.js';
 
 export class BeEntrusting extends BE<AP, Actions> implements Actions{
     static override get beConfig(){
@@ -42,13 +43,15 @@ export class BeEntrusting extends BE<AP, Actions> implements Actions{
     async hydrate(self: this){
         const {entrustingRules, enhancedElement} = self;
         for(const entrustRule of entrustingRules!){
-            const {localProp} = entrustRule;
+            const {localProp, remoteProp} = entrustRule;
             let localVal: any;
             if(localProp === undefined){
                 const {getSignalVal} = await import('be-linked/getSignalVal.js');
                 localVal = getSignalVal(enhancedElement);
                 console.log({localVal});
             }
+            const remoteEl = await getRemoteEl(enhancedElement, '/', remoteProp);
+            (<any>remoteEl)[remoteProp] = localVal;
             //new Observer(self, observe, this.#abortControllers);
             //await hydrateObserve(self, observe, this.#abortControllers)
         }
