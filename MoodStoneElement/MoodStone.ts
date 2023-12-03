@@ -39,6 +39,16 @@ export class MoodStone extends HTMLElement{
         if(div !== null && div !== undefined) div.textContent = '' + nv;
     }
 
+    #isEager: boolean | undefined;
+    get isEager(){
+        return this.#isEager;
+    }
+    set isEager(nv){
+        this.#isEager = nv;
+        const div = this.shadowRoot?.querySelector('#isEager');
+        if(div !== null && div !== undefined) div.textContent = '' + nv;
+    }
+
     constructor(){
         super();
         this.attachShadow({mode: 'open'});
@@ -50,6 +60,7 @@ export class MoodStone extends HTMLElement{
         <div id=isSad></div>
         <div id=isPensive></div>
         <div id=isTriumphant></div>
+        <div id=isEager></div>
         <div itemscope>
             <h3>Example 1a</h3>
             <input checked name=isHappy type=checkbox be-entrusting>
@@ -60,6 +71,8 @@ export class MoodStone extends HTMLElement{
             <h3>Example 1d</h3>
             <link itemprop=isPensive>
             <input disabled be-entrusting='of disabled to $isPensive.'>
+            <h3>Example 1e</h3>
+            <link itemprop=isEager be-entrusting href=http://schema.org/True>
         </div>
         <be-hive></be-hive>
         `;

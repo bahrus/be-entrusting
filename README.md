@@ -2,11 +2,11 @@
 
 ## Use case
 
-Derive initial value from server streamed semantic HTML, then entrust its value to some other system of record.
+Derive initial value from server streamed semantic HTML, then entrust its value to some other system of record, like the web component managing the hydrated DOM.
 
-be-entrusting is a very thin enhancement of [be-observant](https://github.com/bahrus/be-observant).  be-entrusting just adds additional support for setting the initial value of what is being observed from the (server-rendered) HTML value.
+be-entrusting is a very thin enhancement/wrapper around [be-observant](https://github.com/bahrus/be-observant).  be-entrusting just adds additional support for setting the initial value of what is being observed from the (server-rendered) HTML value.
 
-When HTML is sent to the browser, especially as it pertains to server-streamed web components, there are a number of ways we can pass down "state" associated with each instance (btw, we may choose to stream one fully rendered instance down, and let the power of template instantiation take care of the rest):
+When HTML is sent to the browser, especially as it pertains to server-streamed web components, there are a number of ways we can pass down "state" associated with each instance:
 
 1.  Encode the state as attributes of the web component.
 2.  Send the (JSON) data separately, then hydrate after the streaming is complete.
@@ -17,11 +17,10 @@ Advantages of the third approach:
 1.  Styling -- the encoded HTML can already be used to assist in styling, before (or while) the JavaScript hydrates the state.
 2.  Performance -- some functionality, such as gathering user input, could begin immediately, without needing to wait for the entire stream to complete.
 3.  Provide for JS free, declarative custom elements (WIP).
-4.  Enables search engine accuracy via microdata.
+4.  Enable search engine accuracy via microdata.
 5.  Can serialize state from the server to the browser without requiring all properties of the custom element to have an attribute equivalent.
 
-> [!Note]
-> This element enhancement would probably be most effective if it could be partly applied in a Cloudflare or Bun or Deno worker and/or a service worker, [w3c willing](https://github.com/whatwg/dom/issues/1222). 
+ (Btw, we may choose to stream one fully rendered instance down, and let the power of template instantiation take care of generating all the others).
 
 ## Example 1a:
 
@@ -95,6 +94,18 @@ If "to" is part of the property name, it is safest to "escape" such scenarios us
         <div itemscope>
             <link itemprop=isPensive>
             <input disabled be-entrusting='of disabled to $isPensive.'>
+        </div>
+    </template>
+</mood-stone>
+```
+
+## Example 1e
+
+```html
+<mood-stone>
+    <template shadowrootmode=open>
+        <div itemscope>
+            <link itemprop=isEager be-entrusting href=http://schema.org/True>
         </div>
     </template>
 </mood-stone>
