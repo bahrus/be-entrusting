@@ -9,6 +9,8 @@ import {ObserveRule, ObserverOptions} from 'be-observant/types';
 import {Observer} from 'be-observant/Observer.js';
 import {getLocalSignal} from 'be-linked/defaults.js';
 import {setSignalVal} from 'be-linked/setSignalVal.js';
+import { getSignalVal } from 'be-linked/getSignalVal.js';
+import { LocalSignal, SignalRefType } from 'be-linked/types';
 
 export class BeEntrusting extends BE<AP, Actions> implements Actions{
     static override get beConfig(){
@@ -52,13 +54,17 @@ export class BeEntrusting extends BE<AP, Actions> implements Actions{
         }
         const {enhancedElement} = this;
         let {localProp} = observe;
-        if((<any>enhancedElement)[localProp!] === val) return;
         if(localProp === undefined){
             const signal = await getLocalSignal(enhancedElement);
             localProp = signal.prop;
+            observe.localSignal = signal.signal;
             observe.localProp = localProp;
         }
-        (<any>enhancedElement)[localProp!] = val;
+        const {localSignal} = observe;
+        setSignalVal(localSignal!, val);
+        //if((<any>enhancedElement)[localProp!] === val) return;
+
+        //(<any>enhancedElement)[localProp!] = val;
         console.log({observe, val});
     }
         
@@ -66,11 +72,19 @@ export class BeEntrusting extends BE<AP, Actions> implements Actions{
     async hydrate(self: this){
         const {entrustingRules, enhancedElement} = self;
         for(const entrustRule of entrustingRules!){
-            const {localProp, remoteProp, remoteType} = entrustRule;
+            let {localProp, remoteProp, remoteType} = entrustRule;
             let localVal: any;
+            let localSignal: SignalRefType | undefined;
             if(localProp === undefined){
-                const {getSignalVal} = await import('be-linked/getSignalVal.js');
-                localVal = getSignalVal(enhancedElement);
+
+                // const {getSignalVal} = await import('be-linked/getSignalVal.js');
+                // localVal = getSignalVal(enhancedElement);
+                const signal = await getLocalSignal(enhancedElement);
+                localProp = signal.prop;
+                //entrustRule.localSignal = signal.signal;
+                //entrustRule.localProp = localProp;
+                localSignal = signal.signal;
+                localVal = getSignalVal(signal.signal);
             }else{
                 localVal = (<any>enhancedElement)[localProp];
             }
@@ -82,6 +96,7 @@ export class BeEntrusting extends BE<AP, Actions> implements Actions{
                 remoteProp,
                 remoteType,
                 localProp,
+                localSignal,
                 callback: this.handleObserveCallback,
                 skipInit: true,
             };

@@ -6,6 +6,7 @@ import { getRemoteEl } from 'be-linked/getRemoteEl.js';
 import { Observer } from 'be-observant/Observer.js';
 import { getLocalSignal } from 'be-linked/defaults.js';
 import { setSignalVal } from 'be-linked/setSignalVal.js';
+import { getSignalVal } from 'be-linked/getSignalVal.js';
 export class BeEntrusting extends BE {
     static get beConfig() {
         return {
@@ -46,24 +47,33 @@ export class BeEntrusting extends BE {
         }
         const { enhancedElement } = this;
         let { localProp } = observe;
-        if (enhancedElement[localProp] === val)
-            return;
         if (localProp === undefined) {
             const signal = await getLocalSignal(enhancedElement);
             localProp = signal.prop;
+            observe.localSignal = signal.signal;
             observe.localProp = localProp;
         }
-        enhancedElement[localProp] = val;
+        const { localSignal } = observe;
+        setSignalVal(localSignal, val);
+        //if((<any>enhancedElement)[localProp!] === val) return;
+        //(<any>enhancedElement)[localProp!] = val;
         console.log({ observe, val });
     };
     async hydrate(self) {
         const { entrustingRules, enhancedElement } = self;
         for (const entrustRule of entrustingRules) {
-            const { localProp, remoteProp, remoteType } = entrustRule;
+            let { localProp, remoteProp, remoteType } = entrustRule;
             let localVal;
+            let localSignal;
             if (localProp === undefined) {
-                const { getSignalVal } = await import('be-linked/getSignalVal.js');
-                localVal = getSignalVal(enhancedElement);
+                // const {getSignalVal} = await import('be-linked/getSignalVal.js');
+                // localVal = getSignalVal(enhancedElement);
+                const signal = await getLocalSignal(enhancedElement);
+                localProp = signal.prop;
+                //entrustRule.localSignal = signal.signal;
+                //entrustRule.localProp = localProp;
+                localSignal = signal.signal;
+                localVal = getSignalVal(signal.signal);
             }
             else {
                 localVal = enhancedElement[localProp];
@@ -75,6 +85,7 @@ export class BeEntrusting extends BE {
                 remoteProp,
                 remoteType,
                 localProp,
+                localSignal,
                 callback: this.handleObserveCallback,
                 skipInit: true,
             };
