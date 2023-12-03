@@ -8,6 +8,7 @@ import {getRemoteEl} from 'be-linked/getRemoteEl.js';
 import {ObserveRule, ObserverOptions} from 'be-observant/types';
 import {Observer} from 'be-observant/Observer.js';
 import {getLocalSignal} from 'be-linked/defaults.js';
+import {setSignalVal} from 'be-linked/setSignalVal.js';
 
 export class BeEntrusting extends BE<AP, Actions> implements Actions{
     static override get beConfig(){
@@ -43,9 +44,15 @@ export class BeEntrusting extends BE<AP, Actions> implements Actions{
         };
     }
 
-    handleObserveCalback = async (observe: ObserveRule, val: any)  => {
+    #ignoreCallback = false;
+    handleObserveCallback = async (observe: ObserveRule, val: any)  => {
+        if(this.#ignoreCallback){
+            this.#ignoreCallback = false;
+            return;
+        }
         const {enhancedElement} = this;
         let {localProp} = observe;
+        if((<any>enhancedElement)[localProp!] === val) return;
         if(localProp === undefined){
             const signal = await getLocalSignal(enhancedElement);
             localProp = signal.prop;
@@ -67,21 +74,28 @@ export class BeEntrusting extends BE<AP, Actions> implements Actions{
             }else{
                 localVal = (<any>enhancedElement)[localProp];
             }
-            const remoteEl = await getRemoteEl(enhancedElement, '/', remoteProp);
-            (<any>remoteEl)[remoteProp] = localVal;
+            
+            const remoteEl = await getRemoteEl(enhancedElement, remoteType, remoteProp);
+            //this is the problem
+            // 
             const observeRule: ObserveRule = {
                 remoteProp,
                 remoteType,
                 localProp,
-                callback: this.handleObserveCalback,
+                callback: this.handleObserveCallback,
                 skipInit: true,
             };
             const observerOptions: ObserverOptions = {
                 abortControllers: this.#abortControllers,
                 remoteEl,
             }
-            new Observer(self, observeRule, observerOptions);
-            //await hydrateObserve(self, observe, this.#abortControllers)
+            const observer = new Observer(self, observeRule, observerOptions);
+            observer.addEventListener('resolved', e => {
+                const {remoteSignal} = observeRule;
+                const remoteInstance = remoteSignal?.deref();
+                this.#ignoreCallback = true;
+                setSignalVal(remoteInstance!, localVal);
+            });
         }
         //evalObserveRules(self, 'init');
         return {

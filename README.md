@@ -1,4 +1,4 @@
-# be-entrusting [WIP]
+# be-entrusting
 
 ## Use case
 
@@ -39,12 +39,12 @@ Sets the mood-stone (host's) isHappy property to true, since the checkbox is che
 
 But 9 times out of 10, once this initialization is complete, we will want the host's isHappy property to alter the input element's checked property as it changes.  So be-entrusting does that as well.
 
-## Example 1b: [TODO]
+## Example 1b: Specify the name of the property to link
 
 ```html
 <mood-stone>
     <template shadowrootmode=open>
-        <input disabled be-entrusting='of disabled property of $0 with is happy property of host.'>
+        <input disabled be-entrusting='of disabled property of $0 to is triumphant property of host.'>
     </template>
 </mood-stone>
 ```
@@ -87,12 +87,15 @@ In the examples below, we will encounter special symbols used in order to keep t
 
 If "to" is part of the property name, it is safest to "escape" such scenarios using "\to".
 
-## Example 1c
+## Example 1d
 
 ```html
 <mood-stone>
     <template shadowrootmode=open>
-        <input disabled be-entrusting='of disabled to /isHappy.'>
+        <div itemscope>
+            <link itemprop=isPensive>
+            <input disabled be-entrusting='of disabled to $isPensive.'>
+        </div>
     </template>
 </mood-stone>
 ```
