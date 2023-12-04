@@ -4,6 +4,11 @@
 
 Derive initial value from server streamed semantic HTML, then entrust its value to some other system of record, like the web component managing the hydrated DOM.
 
+[![NPM version](https://badge.fury.io/js/be-entrusting.png)](http://badge.fury.io/js/be-entrusting)
+[![How big is this package in your project?](https://img.shields.io/bundlephobia/minzip/be-entrusting?style=for-the-badge)](https://bundlephobia.com/result?p=be-entrusting)
+<img src="http://img.badgesize.io/https://cdn.jsdelivr.net/npm/be-entrusting?compression=gzip">
+[![Playwright Tests](https://github.com/bahrus/be-entrusting/actions/workflows/CI.yml/badge.svg?branch=baseline)](https://github.com/bahrus/be-entrusting/actions/workflows/CI.yml)
+
 be-entrusting is a very thin enhancement/wrapper around [be-observant](https://github.com/bahrus/be-observant).  be-entrusting just adds additional support for setting the initial value of what is being observed from the (server-rendered) HTML value.
 
 When HTML is sent to the browser, especially as it pertains to server-streamed web components, there are a number of ways we can pass down "state" associated with each instance:
@@ -110,3 +115,37 @@ If "to" is part of the property name, it is safest to "escape" such scenarios us
     </template>
 </mood-stone>
 ```
+
+## Viewing Demos Locally
+
+Any web server that can serve static files will do, but...
+
+1.  Install git.
+2.  Fork/clone this repo.
+3.  Install node.js.
+4.  Open command window to folder where you cloned this repo.
+5.  > npm install
+6.  > npm run serve
+7.  Open http://localhost:3030/demo/ in a modern browser.
+
+## Running Tests
+
+```
+> npm run test
+```
+
+## Using from ESM Module:
+
+```JavaScript
+import 'be-entrusting/be-entrusting.js';
+```
+
+## Using from CDN:
+
+```html
+<script type=module crossorigin=anonymous>
+    import 'https://esm.run/be-entrusting';
+</script>
+```
+
+

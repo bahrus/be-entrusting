@@ -63,16 +63,16 @@ export class MoodStone extends HTMLElement{
         <div id=isEager></div>
         <div itemscope>
             <!-- <h3>Example 1a</h3>
-            <input checked name=isHappy type=checkbox be-entrusting>
+            isHappy: <input checked name=isHappy type=checkbox be-entrusting> -->
             <h3>Example 1b</h3>
-            <input disabled be-entrusting='of disabled property of $0 to is triumphant property of host.'>
-            <h3>Example 1c</h3>
+            isTriumphant: <input disabled be-entrusting='of disabled property of $0 to is triumphant property of host.'>
+            <!-- <h3>Example 1c</h3>
             <input disabled be-entrusting='of disabled to /isSad.'>
             <h3>Example 1d</h3>
             <link itemprop=isPensive>
-            <input disabled be-entrusting='of disabled to $isPensive.'> -->
+            <input disabled be-entrusting='of disabled to $isPensive.'> 
             <h3>Example 1e</h3>
-            <link itemprop=isEager be-entrusting href=http://schema.org/True>
+            <link itemprop=isEager be-entrusting href=http://schema.org/True> -->
         </div>
         <be-hive></be-hive>
         `;

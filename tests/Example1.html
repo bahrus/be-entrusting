@@ -8,6 +8,7 @@
 </head>
 <body>
     <mood-stone></mood-stone>
+    <div id=target></div>
     <script type=importmap>
         {
             "imports": {
@@ -26,6 +27,21 @@
     <script type=module>
         import '../MoodStoneElement/MoodStone.js';
         import '../be-entrusting.js';
+    </script>
+    <script>
+        function runTest(){
+            if(document.querySelector('mood-stone').isPensive = false);
+            setTimeout(() => {
+                
+            }, 400);
+            {
+                target.setAttribute('mark', 'good');
+            }
+            
+        }
+        setTimeout(() => {
+            runTest();
+        }, 400);
     </script>
 </body>
 </html>

@@ -53,19 +53,19 @@ export class BeEntrusting extends BE<AP, Actions> implements Actions{
             return;
         }
         const {enhancedElement} = this;
-        let {localProp} = observe;
+        let {localProp, localSignal} = observe;
         if(localProp === undefined){
             const signal = await getLocalSignal(enhancedElement);
             localProp = signal.prop;
+            localSignal = signal.signal;
             observe.localSignal = signal.signal;
             observe.localProp = localProp;
+            setSignalVal(localSignal!, val);
+        }else{
+            (<any>enhancedElement)[localProp] = val;
         }
-        const {localSignal} = observe;
-        setSignalVal(localSignal!, val);
-        //if((<any>enhancedElement)[localProp!] === val) return;
-
-        //(<any>enhancedElement)[localProp!] = val;
-        console.log({observe, val});
+        
+        
     }
         
 
@@ -76,13 +76,8 @@ export class BeEntrusting extends BE<AP, Actions> implements Actions{
             let localVal: any;
             let localSignal: SignalRefType | undefined;
             if(localProp === undefined){
-
-                // const {getSignalVal} = await import('be-linked/getSignalVal.js');
-                // localVal = getSignalVal(enhancedElement);
                 const signal = await getLocalSignal(enhancedElement);
                 localProp = signal.prop;
-                //entrustRule.localSignal = signal.signal;
-                //entrustRule.localProp = localProp;
                 localSignal = signal.signal;
                 localVal = getSignalVal(signal.signal);
             }else{
@@ -90,8 +85,6 @@ export class BeEntrusting extends BE<AP, Actions> implements Actions{
             }
             
             const remoteEl = await getRemoteEl(enhancedElement, remoteType, remoteProp);
-            //this is the problem
-            // 
             const observeRule: ObserveRule = {
                 remoteProp,
                 remoteType,
@@ -112,7 +105,6 @@ export class BeEntrusting extends BE<AP, Actions> implements Actions{
                 setSignalVal(remoteInstance!, localVal);
             });
         }
-        //evalObserveRules(self, 'init');
         return {
             resolved: true,
         }

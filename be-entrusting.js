@@ -46,18 +46,18 @@ export class BeEntrusting extends BE {
             return;
         }
         const { enhancedElement } = this;
-        let { localProp } = observe;
+        let { localProp, localSignal } = observe;
         if (localProp === undefined) {
             const signal = await getLocalSignal(enhancedElement);
             localProp = signal.prop;
+            localSignal = signal.signal;
             observe.localSignal = signal.signal;
             observe.localProp = localProp;
+            setSignalVal(localSignal, val);
         }
-        const { localSignal } = observe;
-        setSignalVal(localSignal, val);
-        //if((<any>enhancedElement)[localProp!] === val) return;
-        //(<any>enhancedElement)[localProp!] = val;
-        console.log({ observe, val });
+        else {
+            enhancedElement[localProp] = val;
+        }
     };
     async hydrate(self) {
         const { entrustingRules, enhancedElement } = self;
@@ -66,12 +66,8 @@ export class BeEntrusting extends BE {
             let localVal;
             let localSignal;
             if (localProp === undefined) {
-                // const {getSignalVal} = await import('be-linked/getSignalVal.js');
-                // localVal = getSignalVal(enhancedElement);
                 const signal = await getLocalSignal(enhancedElement);
                 localProp = signal.prop;
-                //entrustRule.localSignal = signal.signal;
-                //entrustRule.localProp = localProp;
                 localSignal = signal.signal;
                 localVal = getSignalVal(signal.signal);
             }
@@ -79,8 +75,6 @@ export class BeEntrusting extends BE {
                 localVal = enhancedElement[localProp];
             }
             const remoteEl = await getRemoteEl(enhancedElement, remoteType, remoteProp);
-            //this is the problem
-            // 
             const observeRule = {
                 remoteProp,
                 remoteType,
@@ -101,7 +95,6 @@ export class BeEntrusting extends BE {
                 setSignalVal(remoteInstance, localVal);
             });
         }
-        //evalObserveRules(self, 'init');
         return {
             resolved: true,
         };
