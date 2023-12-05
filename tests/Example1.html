@@ -30,13 +30,13 @@
     </script>
     <script>
         function runTest(){
-            if(document.querySelector('mood-stone').isPensive = false);
+            const moodStoneSR = document.querySelector('mood-stone').shadowRoot;
+            moodStoneSR.querySelector('[itemprop="isPensive"]').beEnhanced.beValueAdded.value = false;
             setTimeout(() => {
-                
+                if(moodStoneSR.querySelector('#pensieve').disabled === false){
+                    target.setAttribute('mark', 'good');
+                }
             }, 400);
-            {
-                target.setAttribute('mark', 'good');
-            }
             
         }
         setTimeout(() => {
