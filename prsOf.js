@@ -24,7 +24,6 @@ export function prsOf(self) {
         const test = tryParse(ofStatement, reOfEntrustingStatements);
         if (test === null)
             throw 'PE';
-        console.log({ test });
         entrustingRules.push(test);
     }
     return entrustingRules;

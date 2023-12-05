@@ -29,7 +29,6 @@ export function prsOf(self: AP) : Array<EntrustingRule> {
     for(const ofStatement of both){
         const test = tryParse(ofStatement, reOfEntrustingStatements) as EntrustingRule;
         if(test === null) throw 'PE';
-        console.log({test});
         entrustingRules.push(test);
     }
     return entrustingRules;
