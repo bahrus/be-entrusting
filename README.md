@@ -55,7 +55,7 @@ But 9 times out of 10, once this initialization is complete, we will want the ho
 
 What this does:
 
-Sets host's isHappy property to true.
+Sets host's isTriumphant property to true.
 
 But 9 times out of 10, once this initialization is complete, we will want the host's isHappy property to alter the input element's disabled property as it changes.  So be-entrusting does that as well.
 

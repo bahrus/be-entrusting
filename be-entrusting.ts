@@ -10,7 +10,7 @@ import {Observer} from 'be-observant/Observer.js';
 import {getLocalSignal} from 'be-linked/defaults.js';
 import {setSignalVal} from 'be-linked/setSignalVal.js';
 import { getSignalVal } from 'be-linked/getSignalVal.js';
-import { LocalSignal, SignalRefType } from 'be-linked/types';
+import { SignalRefType } from 'be-linked/types';
 
 export class BeEntrusting extends BE<AP, Actions> implements Actions{
     static override get beConfig(){
@@ -21,6 +21,15 @@ export class BeEntrusting extends BE<AP, Actions> implements Actions{
         } as BEConfig;
     }
     #abortControllers: Array<AbortController>  = [];
+    disconnect(){
+        for(const ac of this.#abortControllers){
+            ac.abort();
+        }
+        this.#abortControllers = [];
+    }
+    override detach(detachedElement: Element): void {
+        this.disconnect();
+    }
     async noAttrs(self: this): ProPAP {
         const {enhancedElement} = self;
         const entrustingRule: EntrustingRule = {
