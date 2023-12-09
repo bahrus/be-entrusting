@@ -55,7 +55,7 @@ But 9 times out of 10, once this initialization is complete, we will want the ho
 
 What this does:
 
-Sets host's isTriumphant property to true, and observes the host property, updating the disabled property as it changes hereafter.
+Sets host's isTriumphant property to true, and observes the host property, updating the disabled property as it changes thereafter.
 
 ## Example 1c:  Shorthand notation 
 
