@@ -2,7 +2,6 @@ import {BE, propDefaults, propInfo} from 'be-enhanced/BE.js';
 import {BEConfig} from 'be-enhanced/types';
 import {XE} from 'xtal-element/XE.js';
 import {Actions, AllProps, AP, PAP, ProPAP, POA, EntrustingRule} from './types';
-import {register} from 'be-hive/register.js';
 import {getRemoteProp} from 'be-linked/defaults.js';
 import {getRemoteEl} from 'be-linked/getRemoteEl.js';
 import {ObserveRule, ObserverOptions} from 'be-observant/types';
@@ -122,9 +121,8 @@ export class BeEntrusting extends BE<AP, Actions> implements Actions{
 
 export interface BeEntrusting extends AllProps{}
 
-const tagName = 'be-entrusting';
-const ifWantsToBe = 'entrusting';
-const upgrade = '*';
+export const tagName = 'be-entrusting';
+
 
 const xe = new XE<AP, Actions>({
     config:{
@@ -151,5 +149,4 @@ const xe = new XE<AP, Actions>({
     superclass: BeEntrusting,
 });
 
-register(ifWantsToBe, upgrade, tagName);
 

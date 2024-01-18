@@ -70,7 +70,7 @@ export class MoodStone extends HTMLElement{
             <input disabled be-entrusting='of disabled to /isSad.'>
             <h3>Example 1d</h3>
             <link itemprop=isPensive>
-            <input id=pensieve disabled be-entrusting='of disabled to $isPensive.'> 
+            <input id=pensieve disabled be-entrusting='of disabled to |isPensive.'> 
             <h3>Example 1e</h3>
             <link itemprop=isEager be-entrusting href=http://schema.org/True>
         </div>

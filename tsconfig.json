@@ -9,7 +9,7 @@
 		"strict": true,
 	},
 	"files":[
-		"be-entrusting.ts",
+		"behivior.ts",
 		"MoodStoneElement/MoodStone.ts"
 	],
 	"exclude":[

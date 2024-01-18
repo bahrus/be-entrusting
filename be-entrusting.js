@@ -1,6 +1,5 @@
 import { BE, propDefaults, propInfo } from 'be-enhanced/BE.js';
 import { XE } from 'xtal-element/XE.js';
-import { register } from 'be-hive/register.js';
 import { getRemoteProp } from 'be-linked/defaults.js';
 import { getRemoteEl } from 'be-linked/getRemoteEl.js';
 import { Observer } from 'be-observant/Observer.js';
@@ -16,6 +15,15 @@ export class BeEntrusting extends BE {
         };
     }
     #abortControllers = [];
+    disconnect() {
+        for (const ac of this.#abortControllers) {
+            ac.abort();
+        }
+        this.#abortControllers = [];
+    }
+    detach(detachedElement) {
+        this.disconnect();
+    }
     async noAttrs(self) {
         const { enhancedElement } = self;
         const entrustingRule = {
@@ -100,9 +108,7 @@ export class BeEntrusting extends BE {
         };
     }
 }
-const tagName = 'be-entrusting';
-const ifWantsToBe = 'entrusting';
-const upgrade = '*';
+export const tagName = 'be-entrusting';
 const xe = new XE({
     config: {
         tagName,
@@ -127,4 +133,3 @@ const xe = new XE({
     },
     superclass: BeEntrusting,
 });
-register(ifWantsToBe, upgrade, tagName);

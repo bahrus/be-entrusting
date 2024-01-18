@@ -77,7 +77,7 @@ In the examples below, we will encounter special symbols used in order to keep t
 |-------------|----------------------|--------------------------------------------------------------------------------------|
 | /propName   |"Hostish"             | Passes initial value to host, then monitor for changes.                              |
 | @propName   |Name attribute        | Pass to form element with matching name, list for input events.                      |
-| $propName   |Itemprop attribute    | If contenteditible, listens for input events.  Otherwise, uses be-value-added.       |
+| |propName   |Itemprop attribute    | If contenteditible, listens for input events.  Otherwise, uses be-value-added.       |
 | #propName   |Id attribute          | Match by id.                                                                         |
 | -prop-name  |Marker indicates prop | Passes by attribute marker.                                                          |
 
@@ -96,7 +96,7 @@ If "to" is part of the property name, it is safest to "escape" such scenarios us
     <template shadowrootmode=open>
         <div itemscope>
             <link itemprop=isPensive>
-            <input disabled be-entrusting='of disabled to $isPensive.'>
+            <input disabled be-entrusting='of disabled to |isPensive.'>
         </div>
     </template>
 </mood-stone>
