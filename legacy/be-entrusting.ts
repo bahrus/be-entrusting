@@ -1,7 +1,7 @@
 import {BE, propDefaults, propInfo} from 'be-enhanced/BE.js';
 import {BEConfig} from 'be-enhanced/types';
 import {XE} from 'xtal-element/XE.js';
-import {Actions, AllProps, AP, PAP, ProPAP, POA, EntrustingRule} from './types';
+import {Actions, AllProps, AP, PAP, ProPAP, POA, EntrustingRule} from '../ts-refs/be-entrusting/types.js';
 import {getRemoteProp} from 'be-linked/defaults.js';
 import {getRemoteEl} from 'be-linked/getRemoteEl.js';
 import {ObserveRule, ObserverOptions} from 'be-observant/types';

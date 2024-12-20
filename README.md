@@ -41,7 +41,7 @@ What this does:
 
 Sets the mood-stone (host's) isHappy property to true, since the checkbox is checked.
 
-But 9 times out of 10, once this initialization is complete, we will want the host's isHappy property to alter the input element's checked property as it changes.  So be-entrusting does that as well.
+Once this initialization is complete, the data flow goes exclusively in the other direction, from the mood-stone host down to the checkbox.
 
 ## Example 1b: Specify the name of the property to link
 
