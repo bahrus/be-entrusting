@@ -1,5 +1,8 @@
 # be-entrusting
 
+This package is currently deprecated, in favor of [be-yielding](https://github.com/be-yielding)
+
+<!--
 ## Use case
 
 Derive initial value from server streamed semantic HTML, then entrust its value to some other system of record, like the web component managing the hydrated DOM.
@@ -145,5 +148,7 @@ import 'be-entrusting/be-entrusting.js';
     import 'https://esm.run/be-entrusting';
 </script>
 ```
+
+-->
 
 
